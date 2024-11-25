@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-node
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: back-node
+  template:
+    metadata:
+      labels:
+        app: back-node
+    spec:
+      containers:
+      - name: back-node
+        image: back-node:latest
+        ports:
+        - containerPort: 8001
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DB_HOST
+          value: "your-mysql-host"
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASSWORD
+          value: ""
+        - name: DB_NAME
+          value: "dbuser"
