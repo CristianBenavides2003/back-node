@@ -21,7 +21,7 @@ spec:
         - name: NODE_ENV
           value: "production"
         - name: DB_HOST
-          value: "your-mysql-host"
+          value: "localhost"
         - name: DB_PORT
           value: "3306"
         - name: DB_USER
@@ -29,4 +29,4 @@ spec:
         - name: DB_PASSWORD
           value: ""
         - name: DB_NAME
-          value: "dbuser"
+          value: "dbusers"
