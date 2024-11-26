@@ -14,7 +14,7 @@ RUN npm ci --only=production
 COPY . .
 
 # Construir la aplicación si es necesario (para frameworks como React o Next.js)
-RUN npm run build
+#RUN npm run build
 
 # Etapa 2: Imagen final
 FROM node:alpine
