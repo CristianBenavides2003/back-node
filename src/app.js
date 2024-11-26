@@ -13,7 +13,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Importa las rutas de usuarios
 const userRoutes = require('./routes/userRoutes.js');
-app.use('/api/users', userRoutes);
+app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
     res.send('Bienvenido a la API de Usuarios');
