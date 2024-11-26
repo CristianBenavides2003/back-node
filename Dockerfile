@@ -10,6 +10,8 @@ COPY package*.json ./
 # Instalar dependencias en producción
 RUN npm ci --only=production
 
+RUN npm ls
+
 # Copiar el resto de los archivos del proyecto
 COPY . .
 
