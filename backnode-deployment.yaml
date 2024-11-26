@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: back-node
-          image: back-node:latest # Cambia esta línea si tu imagen está en un registry remoto
+          image: cristianbenavides/back-node:latest # Cambia esta línea si tu imagen está en un registry remoto
           ports:
             - containerPort: 8001
           envFrom:
