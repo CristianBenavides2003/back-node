@@ -1,7 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: back-node-config
+  namespace: devops-dev
+data:
+  DB_HOST: localhost
+  DB_PORT: "3306"
+  DB_USER: root
+  DB_PASSWORD: ""
+  DB_NAME: dbusers
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back-node
+  name: back-node-deployment
+  namespace: devops-dev
+  labels:
+    app: back-node
 spec:
   replicas: 2
   selector:
@@ -13,20 +29,42 @@ spec:
         app: back-node
     spec:
       containers:
-      - name: back-node
-        image: back-node:latest
-        ports:
-        - containerPort: 8001
-        env:
-        - name: NODE_ENV
-          value: "production"
-        - name: DB_HOST
-          value: "localhost"
-        - name: DB_PORT
-          value: "3306"
-        - name: DB_USER
-          value: "root"
-        - name: DB_PASSWORD
-          value: ""
-        - name: DB_NAME
-          value: "dbusers"
+        - name: back-node
+          image: back-node:latest # Cambia esta línea si tu imagen está en un registry remoto
+          ports:
+            - containerPort: 8001
+          envFrom:
+            - configMapRef:
+                name: back-node-config
+          env:
+            - name: NODE_ENV
+              value: production
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 15
+            periodSeconds: 20
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-node-service
+  namespace: devops-dev
+  labels:
+    app: back-node
+spec:
+  selector:
+    app: back-node
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8001
+  type: ClusterIP
