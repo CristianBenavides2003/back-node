@@ -1,7 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swaggerConfig');
+const myconn = require('express-myconnection');
+const cors = require('cors'); // Importa cors
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use(express.json());
 
 // Documentación Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use(myconn(mysql, dbOptions, 'single'));
+app.use(cors()); 
 
 // Importa las rutas de usuarios
 const userRoutes = require('./routes/userRoutes.js');
