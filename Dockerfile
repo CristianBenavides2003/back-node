@@ -28,13 +28,5 @@ COPY --from=builder /app /app
 # Exponer el puerto por defecto
 EXPOSE 8001
 
-# Definir variables de entorno por defecto
-ENV NODE_ENV=production
-ENV DB_HOST=localhost
-ENV DB_PORT=3306
-ENV DB_USER=root
-ENV DB_PASSWORD=''
-ENV DB_NAME=dbusers
-
 # Iniciar la aplicación
 CMD ["npm", "start"]

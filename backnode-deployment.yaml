@@ -1,70 +1,20 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: back-node-config
-  namespace: devops-dev
-data:
-  DB_HOST: localhost
-  DB_PORT: "3306"
-  DB_USER: root
-  DB_PASSWORD: ""
-  DB_NAME: dbusers
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back-node-deployment
+  name: nodejs-backend-deployment
   namespace: devops-dev
-  labels:
-    app: back-node
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: back-node
+      app: nodejs-backend
   template:
     metadata:
       labels:
-        app: back-node
+        app: nodejs-backend
     spec:
       containers:
-        - name: back-node
-          image: cristianbenavides/back-node:latest # Cambia esta línea si tu imagen está en un registry remoto
-          ports:
-            - containerPort: 8001
-          envFrom:
-            - configMapRef:
-                name: back-node-config
-          env:
-            - name: NODE_ENV
-              value: production
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8001
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8001
-            initialDelaySeconds: 15
-            periodSeconds: 20
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: back-node-service
-  namespace: devops-dev
-  labels:
-    app: back-node
-spec:
-  selector:
-    app: back-node
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8001
-  type: LoadBalancer
+      - name: nodejs-backend
+        image: cristianbenavides/back-node:latest  # Imagen del backend en DockerHub
+        ports:
+        - containerPort: 8001
