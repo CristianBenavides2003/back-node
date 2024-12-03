@@ -25,7 +25,7 @@ app.use(cors());
 
 // Importa las rutas de usuarios
 const userRoutes = require('./routes/userRoutes.js');
-app.use('/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
     res.send('Bienvenido a la API de Usuarios');
