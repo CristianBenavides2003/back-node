@@ -1,6 +1,7 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swaggerConfig');
+const mysql = require('mysql');
 const myconn = require('express-myconnection');
 const cors = require('cors'); // Importa cors
 
@@ -8,6 +9,14 @@ const app = express();
 
 // Middleware para parsear JSON
 app.use(express.json());
+
+const dbOptions = {
+    host: 'mysql-service',
+    port: 3306,
+    user: 'root',
+    password: '', // Cambia esto si tu contraseña es diferente
+    database: 'dbusers' // Base de datos actualizada
+};
 
 // Documentación Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
